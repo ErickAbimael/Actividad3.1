@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Juego de Adivina n&uacute;mero</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        background-color: blanchedalmond;
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+
+      .ultimoResultado {
+        color: blanchedalmond;
+        padding: 3px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Juego de Adivina n&uacute;mero</h1>
+
+    <p>Se ha generado un valor de entre 1 y 100. Vea si puede adivinarlo en 10 turnos o menos. Le diremos si su estimación fue demasiado alta o demasiado baja.</p>
+
+    <div class="form">
+      <label for="campoAdivina">Ingrese el valor que piensa: </label>
+      <input type="text" id="campoAdivina" class="campoAdivina">
+      <input type="submit" value="Adivina" class="adivinaSubmit">
+    </div>
+
+    <div class="resultParas">
+      <p class="adivinanzas"></p>
+      <p class="ultimoResultado"></p>
+      <p class="bajoOAlto"></p>
+    </div>
+      
+    <div class="Rules">
+        
+        <p class="Reg"></p>
+        <p class="Alto"></p>
+        <p class="Bajo"></p>
+        <p class="Correcto"></p>
+        <p class="Over"></p>
+    </div>  
+
+    <script>
+      var randomNumber = Math.floor(Math.random() * 100) + 1;
+      const adivinanzas = document.querySelector('.adivinanzas');
+      const ultimoResultado = document.querySelector('.ultimoResultado');
+      const bajoOAlto = document.querySelector('.bajoOAlto');
+      const adivinaSubmit = document.querySelector('.adivinaSubmit');
+      const campoAdivina = document.querySelector('.campoAdivina');
+      var contadorAdivinanzas = 1;
+      var resetButton;
+      const Alto = document.querySelector('.Alto');
+      const Bajo = document.querySelector('.Bajo');
+      const Correcto = document.querySelector('.Correcto');
+      const Reg = document.querySelector('.Reg');  
+      const Over = document.querySelector('.Over');
+        
+        Reg.textContent = "Reglas";
+        Alto.textContent = 'Muy Alto el numero';
+        Alto.style.backgroundColor = 'blue';
+        Bajo.textContent = 'Muy Bajo el numero';
+        Bajo.style.backgroundColor = 'yellow';
+        Correcto.textContent = 'Correcto';
+        Correcto.style.backgroundColor = 'green';
+        Over.textContent = 'GAME OVER'
+        Over.style.backgroundColor = "red";
+
+      function checaAdivinanza() {
+        var AdivinanzaUsuario = Number(campoAdivina.value);
+        if (contadorAdivinanzas ==1) {
+          adivinanzas.textContent = 'Adivinanzas Previas: ';
+          
+        }
+
+        adivinanzas.textContent += AdivinanzaUsuario + ' ';
+
+        if (AdivinanzaUsuario == randomNumber) {
+          ultimoResultado.textContent = 'Felicidades! Estás en lo correcto!';
+            adivinanzas.style.backgroundColor = 'green';
+          //ultimoResultado.style.backgroundColor = 'green';
+          bajoOAlto.textContent = '';
+          empezarJuego();
+        } else if (contadorAdivinanzas == 10) {
+          ultimoResultado.textContent = '!!!GAME OVER!!!';
+          bajoOAlto.textContent = '';
+            adivinanzas.style.backgroundColor = 'red';
+          empezarJuego();
+        } else {
+            adivinanzas.style.backgroundColor = 'red';
+          //ultimoResultado.textContent = 'Error!';
+          //ultimoResultado.style.backgroundColor = 'red';
+          if(AdivinanzaUsuario < randomNumber) {
+            bajoOAlto.textContent = 'El último número es demasiado bajo!' ;
+              adivinanzas.style.backgroundColor = 'yellow';
+          } else if(AdivinanzaUsuario > randomNumber) {
+            bajoOAlto.textContent = 'El último númer es demasiado alto!';
+              adivinanzas.style.backgroundColor = 'blue';
+          }
+        }
+
+        contadorAdivinanzas++;
+        campoAdivina.value = '';
+        campoAdivina.focus();
+      }
+
+      adivinaSubmit.addEventListener('click', checaAdivinanza);
+
+      function empezarJuego() {
+        campoAdivina.disabled = true;
+        adivinaSubmit.disabled = true;
+        resetButton = document.createElement('button');
+        resetButton.textContent = 'Iniciar nuevo Juego';
+        document.body.appendChild(resetButton);
+        resetButton.addEventListener('click', resetJuego);
+      }
+
+      function resetJuego() {
+        contadorAdivinanzas = 1;
+        const resetParas = document.querySelectorAll('.resultParas p');
+        for(var i = 0 ; i < resetParas.length ; i++) {
+          resetParas[i].textContent = '';
+        }
+
+        resetButton.parentNode.removeChild(resetButton);
+        campoAdivina.disabled = false;
+        adivinaSubmit.disabled = false;
+        campoAdivina.value = '';
+        campoAdivina.focus();
+        ultimoResultado.style.backgroundColor = 'blanchedalmond';
+        randomNumber = Math.floor(Math.random() * 100) + 1;
+      }
+    </script>
+  </body>
+</html>

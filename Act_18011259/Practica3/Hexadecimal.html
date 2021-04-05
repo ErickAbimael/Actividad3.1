@@ -1,0 +1,82 @@
+<!DOCTYPE >
+<html>
+    <head>
+        <title>Valor en base 10</title>
+    </head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+        body{
+            font-family: Century Gothic, sans-serif;
+            background-color:rgb(255, 120, 100);
+            text-align: center;
+        }
+    </style>
+    <body>
+        <h1>Hexadecimal</h1>
+        <form>
+            <label>Introducir un número: </label>
+            <input type="text"   id="num" name="numero" value="">
+            <button type="button" onclick="esHexadecimal(num.value)">Calcular</button>&nbsp;&nbsp;
+            <button type="button" onclick="limpiar()">Limpiar Todos</button>&nbsp;&nbsp;
+            <input type="button" onClick="cierra();" value="Cerrar"/><br>
+        </form>
+
+        <script type="text/javascript">
+
+            function esHexadecimal(numero){
+                if(document.getElementById("num").value!=""){
+                    var resultadoHex = Hexadecimal(numero);
+                    parrafo = document.createElement("p");
+                    contenido = document.createTextNode("El hexadecimal de "+numero+" es "+resultadoHex);  
+                    parrafo.appendChild(contenido);
+                    document.body.appendChild(parrafo);
+                    document.getElementById("num").value="";
+                }
+                else alert("Introduzca un número para realizar la conversión a hexadecimal");
+            }
+
+            function Hexadecimal(numero){
+                var hexa=[], i;
+                for(i=numero; i>0; i=parseInt(i/16)){
+                    hexa.push(i%16);
+                }
+
+                for(i=0; i<hexa.length; i++){
+                    switch(hexa[i]){
+                        case 10: hexa[i] = "A";
+                                 break;
+                        case 11: hexa[i] = "B";
+                                 break;
+                        case 12: hexa[i] = "C";
+                                 break;
+                        case 13: hexa[i] = "D";
+                                 break;
+                        case 14: hexa[i] = "E";
+                                 break;
+                        case 15: hexa[i] = "F";
+                                 break;
+                    }
+                }
+                return hexa.reverse().join("");
+            }
+
+            function limpiar(){
+                lista=document.querySelectorAll('p');
+
+                if(lista.length!=0){
+                    i=lista.length-1; 
+                    while(i>-1)
+                        lista[i].parentNode.removeChild(lista[i--]);
+                }
+                else alert("No hay párrafos a eliminar");
+            }
+
+            function cierra(){
+                if (confirm("¿Desea cerrar la ventana?")){
+                window.close();
+                }
+		    }
+
+        </script>
+    </body>
+</html>
